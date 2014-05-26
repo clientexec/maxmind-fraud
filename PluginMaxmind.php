@@ -145,12 +145,16 @@ class PluginMaxmind extends FraudPlugin
             $mailGateway = new NE_MailGateway();
             $destinataries = explode("\r\n", $this->settings->get('MaxMind Warning E-mail'));
             foreach ($destinataries as $destinatary) {
-                $mailGateway->mailMessageEmail( $this->user->lang("Dear Support Member,\r\n\r\nThis is a warning notification that your remaining MaxMind queries has reached your threshold of %s.\r\n\r\nThank you,\r\nClientExec", $this->settings->get('MaxMind Low Query Threshold')),
-                                                $this->settings->get('Support E-mail'),
-                                                $this->settings->get('Support E-mail'),
-                                                $destinatary,
-                                                0,
-                                                $this->user->lang("WARNING: Low MaxMind Queries"));
+                $mailGateway->mailMessageEmail( $this->user->lang("Dear Support Member") . ",\r\n\r\n"
+                        . sprintf($this->user->lang('This is a warning notification that your remaining MaxMind queries has reached your threshold of %s.'), $this->settings->get('MaxMind Low Query Threshold'))
+                        . "\r\n\r\n"
+                        . $this->user->lang('Thank you')
+                        . ",\r\nClientExec",
+                    $this->settings->get('Support E-mail'),
+                    $this->settings->get('Support E-mail'),
+                    $destinatary,
+                    0,
+                    $this->user->lang("WARNING: Low MaxMind Queries"));
             }
         }
     }
